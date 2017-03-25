@@ -138,7 +138,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "../static"),
 ]
 
-AUTH_USER_MODEL = 'users.models.User'
+# AUTH_USER_MODEL = 'users.models.User'
 
 #pagintor
 ONE_PAGE_NUM = 15

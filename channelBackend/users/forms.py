@@ -3,6 +3,7 @@
 __author__ = 'fengxuan'
 from django import forms
 from pages.models import Channel
+from utils.tools import encrypt_text
 
 from models import Users
 
@@ -32,5 +33,6 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError(
                 "password and confirm_password does not match"
             )
+        cleaned_data["password"] = encrypt_text(password, cleaned_data["username"])
 
         return self.cleaned_data
