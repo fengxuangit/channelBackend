@@ -17,11 +17,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from users.views import login
+from users.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', login, name='login'),
+    url(r'^logout/$', logout, name='logout'),
     url(r'^', include("pages.urls", namespace='pages')),
 
     url(r'^users/', include("users.urls", namespace='users')),

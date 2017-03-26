@@ -4,6 +4,7 @@ __author__ = 'fengxuan'
 from django import forms
 from pages.models import Channel
 from utils.tools import encrypt_text
+from utils.macro import USER_ROLE
 
 from models import Users
 
@@ -23,16 +24,22 @@ class UserForm(forms.ModelForm):
             'email',
             'role',
         ]
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(UserForm, self).__init__(*args, **kwargs)
+
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
         password = cleaned_data.get("password")
+        role = cleaned_data.get("role")
         confirm_password = cleaned_data.get("confirm_password")
 
         if password != confirm_password:
             raise forms.ValidationError(
                 "password and confirm_password does not match"
             )
+
         cleaned_data["password"] = encrypt_text(password, cleaned_data["username"])
 
         return self.cleaned_data
