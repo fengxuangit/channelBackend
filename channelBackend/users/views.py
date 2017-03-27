@@ -43,7 +43,7 @@ def register(request):
             instance.channel = Channel.objects.create()
             instance.save()
             messages.success(request, "Successfully Created")
-            return HttpResponseRedirect(reverse('pages:showchannel'))
+            return HttpResponseRedirect(reverse(':showchannel'))
         else:
             return render(request, 'user.html', {'form': form})
     form = UserForm()

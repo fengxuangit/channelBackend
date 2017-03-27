@@ -39,11 +39,9 @@
       <tbody>
       {% for order in orders %}
         <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.user.username }}</td>
-          <td>{{ order.channelname }}</td>
-          <td>{{ order.money }}</td>
-          <td>{{ order.insert_tm }}</td>
+         {% for item in order %}
+          <td>{{ item }}</td>
+         {% endfor %}
           <td>
               <a href="user.html"><i class="icon-pencil"></i></a>
               <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>

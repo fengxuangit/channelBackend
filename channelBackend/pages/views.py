@@ -1,5 +1,6 @@
 
 from django.shortcuts import render_to_response, render
+from django.db import connection
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from utils.tools import channel_login_required
@@ -14,11 +15,19 @@ def index(request):
 
 @channel_login_required
 def orderinfo(request):
-    # import ipdb;ipdb.set_trace()
+    cursor = connection.cursor()
+    order_list = []
     if request.user.is_admin:
-        order_list = OrderInfo.objects.all()
+        cursor.execute('select `users_orderinfo`.`id`,`users_users`.`username` ,`users_orderinfo`.`channel_id`,'
+                       '`users_orderinfo`.`money`,`users_orderinfo`.`insert_tm` from users_orderinfo '
+                       'inner join users_users on `users_orderinfo`.channel_id = `users_users`.channel_id;')
+        order_list = cursor.fetchall()
     else:
-        order_list = OrderInfo.objects.filter(channel=request.user.channel)
+        cursor.execute('select `users_orderinfo`.`id`,`users_users`.`username` ,`users_orderinfo`.`channel_id`,'
+                       '`users_orderinfo`.`money`,`users_orderinfo`.`insert_tm` from users_orderinfo '
+                       'inner join users_users on `users_orderinfo`.channel_id = `users_users`.channel_id'
+                       ' where `users_users`.id = %d' % request.user.id)
+        order_list.append(cursor.fetchone())
     paginator = Paginator(order_list, settings.ONE_PAGE_NUM)
     page = request.GET.get('page')
     try:
@@ -27,6 +36,7 @@ def orderinfo(request):
         orders = paginator.page(1)
     except EmptyPage:
         orders = paginator.page(paginator.num_pages)
+
     return render(request, 'orders.html', locals())
 
 
