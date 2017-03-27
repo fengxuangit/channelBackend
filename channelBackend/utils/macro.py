@@ -2,4 +2,6 @@
 # -*- coding: utf-8 -*- # 
 __author__ = 'fengxuan'
 
-USER_ROLE = {'MANAGER': 0, 'OWNER': 1}
+class USER_ROLE(object):
+    MANAGER = 0
+    OWNER = 1

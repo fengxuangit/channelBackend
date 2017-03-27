@@ -28,9 +28,8 @@ def login(request):
 
 
 def logout(request):
-    request.session['username'] = ''
     del request.session['username']
-    request.session.delete()
+    request.session.flush()
     return HttpResponseRedirect(reverse('login'))
 
 
@@ -38,7 +37,7 @@ def logout(request):
 @transaction.atomic()
 def register(request):
     if request.method == 'POST':
-        form = UserForm(request.POST or None, user=request.session.get('username', None))
+        form = UserForm(request.POST or None, user=request.user)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.channel = Channel.objects.create()

@@ -13,7 +13,6 @@ class UserForm(forms.ModelForm):
     password = forms.CharField(label='密 码', widget=forms.PasswordInput)
     confirm_password=forms.CharField(label='重复密码', widget=forms.PasswordInput)
     email = forms.EmailField(label='邮 件')
-    role = forms.NumberInput()
 
     class Meta:
         model = Users
@@ -22,8 +21,8 @@ class UserForm(forms.ModelForm):
             'password',
             'confirm_password',
             'email',
-            'role',
         ]
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(UserForm, self).__init__(*args, **kwargs)
@@ -32,7 +31,6 @@ class UserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
         password = cleaned_data.get("password")
-        role = cleaned_data.get("role")
         confirm_password = cleaned_data.get("confirm_password")
 
         if password != confirm_password:

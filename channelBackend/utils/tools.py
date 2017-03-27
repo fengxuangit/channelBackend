@@ -24,7 +24,7 @@ def check_encrypted_text(text, salt, encoded):
 
 def channel_login_required(func):
     def warp(request, *args, **kwargs):
-        if 'username' not in request.session.keys():
+        if 'username' not in request.session.keys() or not request.session['username']:
             return HttpResponseRedirect(reverse('login'))
         return func(request, *args, **kwargs)
     warp.__doc__ = func.__doc__

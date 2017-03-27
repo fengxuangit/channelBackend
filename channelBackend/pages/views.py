@@ -14,7 +14,10 @@ def index(request):
 
 @channel_login_required
 def orderinfo(request):
-    order_list = OrderInfo.objects.all()
+    if request.user.is_admin:
+        order_list = OrderInfo.objects.all()
+    else:
+        order_list = OrderInfo.objects.filter(channel=request.user.channel)
     paginator = Paginator(order_list, settings.ONE_PAGE_NUM)
     page = request.GET.get('page')
     try:
@@ -28,8 +31,11 @@ def orderinfo(request):
 
 
 @channel_login_required
-def showchannel(request):
-    user_list = Users.objects.all()
+def showusers(request):
+    if request.user.is_admin:
+        user_list = Users.objects.all()
+    else:
+        user_list = Users.objects.filter(id=request.user.id)
     paginator = Paginator(user_list, settings.ONE_PAGE_NUM)
     page = request.GET.get('page')
     try:

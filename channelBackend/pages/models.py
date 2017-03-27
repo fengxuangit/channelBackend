@@ -9,5 +9,3 @@ class Channel(models.Model):
     money = models.IntegerField(default=0)
     charge = models.IntegerField(default=0)
     update_tm = models.DateTimeField(auto_now_add=True)
-
-

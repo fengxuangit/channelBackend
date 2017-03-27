@@ -5,6 +5,7 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from  utils.macro import USER_ROLE
 
 from pages.models import Channel
 
@@ -69,7 +70,7 @@ class Users(models.Model):
     password = models.CharField(max_length=40)
     channel = models.ForeignKey(Channel, related_name='User')
     email = models.EmailField(unique=True)
-    role = models.IntegerField(default=2)
+    role = models.IntegerField(default=USER_ROLE.OWNER)
     last_login_time = models.DateTimeField(null=True)
     last_ip = models.CharField(max_length=20, null=True)
 
@@ -77,6 +78,13 @@ class Users(models.Model):
         self.last_login_time = datetime.datetime.now()
         self.last_ip = request.META['REMOTE_ADDR']
         self.save(update_fields=['last_login_time', 'last_ip'])
+
+    def is_admin_or_manager(self):
+        if self.role == USER_ROLE.MANAGER:
+            return True
+        return False
+
+    is_admin = property(is_admin_or_manager)
 
 class OrderInfo(models.Model):
     id = models.AutoField(primary_key=True)

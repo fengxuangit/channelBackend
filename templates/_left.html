@@ -6,18 +6,17 @@
 
         <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>Dashboard</a>
         <ul id="dashboard-menu" class="nav nav-list collapse in">
-            <li><a href="{% url 'pages:index' %}">Home</a></li>
+            <!--<li><a href="{% url 'pages:index' %}">Home</a></li>-->
             <li ><a href="{% url 'pages:orderinfo' %}">订单数据</a></li>
             <li ><a href="{% url 'pages:showchannel' %}">安装数据</a></li>
         </ul>
 
+        {% if request.user.is_admin %}
         <a href="#accounts-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Account</a>
-       <!-- <span class="label label-info">+3</span> -->
         <ul id="accounts-menu" class="nav nav-list collapse in">
             <li ><a href="{% url 'users:adduser' %}">添加用户</a></li>
-
         </ul>
-
+        {% endif %}
         <!--<a href="#error-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-exclamation-sign"></i>Error Pages <i class="icon-chevron-up"></i></a>-->
         <!--<ul id="error-menu" class="nav nav-list collapse">-->
             <!--<li ><a href="403.html">403 page</a></li>-->
