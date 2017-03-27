@@ -17,4 +17,4 @@ class OrderSerializer(Serializer):
 
     class Meta:
         models = OrderInfo
-        fields = ['id', 'money', 'insert_tm']
+        fields = ['id', 'channel', 'money', 'insert_tm']

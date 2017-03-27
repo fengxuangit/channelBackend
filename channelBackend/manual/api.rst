@@ -29,7 +29,7 @@ API文档
 - 请求参数::
 
     {
-        "channel_id" : 123
+        "channel" : 123
         "money":  123
     }
 

@@ -1,10 +1,10 @@
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from utils.tools import channel_login_required
 
-
+from pages.models import Channel
 from users.models import Users, OrderInfo
 
 @channel_login_required
@@ -14,6 +14,7 @@ def index(request):
 
 @channel_login_required
 def orderinfo(request):
+    # import ipdb;ipdb.set_trace()
     if request.user.is_admin:
         order_list = OrderInfo.objects.all()
     else:
@@ -26,8 +27,7 @@ def orderinfo(request):
         orders = paginator.page(1)
     except EmptyPage:
         orders = paginator.page(paginator.num_pages)
-
-    return render_to_response('orders.html', {'orders': orders})
+    return render(request, 'orders.html', locals())
 
 
 @channel_login_required
@@ -44,5 +44,5 @@ def showusers(request):
         users = paginator.page(1)
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
-    return render_to_response('details.html', {'users': users})
+    return render(request, 'details.html', locals())
 
